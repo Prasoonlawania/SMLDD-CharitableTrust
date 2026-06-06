@@ -1,4 +1,5 @@
 import React from 'react';
+import { MapPin } from 'lucide-react';
 import { EditableText } from './EditableText';
 
 export function ContactUs() {
@@ -19,7 +20,20 @@ export function ContactUs() {
                 <div className="space-y-6">
                   <div>
                     <span className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Address</span>
-                    <EditableText section="contact" field="address" className="text-gray-800 font-medium" />
+                    <div className="flex items-start gap-2 justify-between">
+                      <div className="flex-1">
+                        <EditableText section="contact" field="address" className="text-gray-800 font-medium" />
+                      </div>
+                      <a 
+                        href="https://www.google.com/maps/place/Shri+Murari+Lal+Dulari+Devi+Charitable+Trust/@27.2814426,77.1581716,89m/data=!3m1!1e3!4m12!1m5!3m4!2zMjfCsDE2JzUzLjYiTiA3N8KwMDknMjkuMSJF!8m2!3d27.2815679!4d77.158095!3m5!1s0x39725560af919627:0x220cb8ceea5053ed!8m2!3d27.2813391!4d77.1581057!16s%2Fg%2F11xznzs9jd?entry=ttu&g_ep=EgoyMDI2MDYwMS4wIKXMDSoASAFQAw%3D%3D4" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-blue-600 hover:text-blue-800 bg-blue-50 p-2 rounded-full transition-colors flex-shrink-0"
+                        title="View on Google Maps"
+                      >
+                        <MapPin className="h-5 w-5" />
+                      </a>
+                    </div>
                   </div>
                   <div>
                     <span className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Email</span>
