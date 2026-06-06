@@ -1,0 +1,20 @@
+backend:
+  name: github
+  repo: your-username/your-repo-name # IMPORTANT: Change this to your actual GitHub username/repo
+  branch: main # Branch to update (optional; defaults to main/master)
+
+# This is where your uploaded media will be saved
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "updates"
+    label: "Latest Updates"
+    folder: "src/content/updates"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Featured Image", name: "image", widget: "image", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
