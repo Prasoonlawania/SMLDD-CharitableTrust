@@ -2,13 +2,6 @@ import React from 'react';
 import { EditableText } from './EditableText';
 
 export function ContactUs() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Simulate form submission
-    alert("Thank you for reaching out! We will get back to you soon.");
-    (e.target as HTMLFormElement).reset();
-  };
-
   return (
     <>
       {/* Contact Section */}
@@ -40,25 +33,19 @@ export function ContactUs() {
               </div>
             </div>
             
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Send us a Message</h3>
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
-                  <input id="name" type="text" required className="w-full bg-gray-50 border-gray-200 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all border" />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                  <input id="email" type="email" required className="w-full bg-gray-50 border-gray-200 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all border" />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                  <textarea id="message" rows={4} required className="w-full bg-gray-50 border-gray-200 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all border resize-none"></textarea>
-                </div>
-                <button type="submit" className="w-full bg-gray-900 text-white font-bold py-3.5 rounded-lg hover:bg-gray-800 transition-colors shadow-md">
-                  Send Message
-                </button>
-              </form>
+            <div className="bg-white p-4 sm:p-8 rounded-2xl border border-gray-100 shadow-sm flex flex-col min-h-[600px] w-full">
+              <iframe
+                src="https://docs.google.com/forms/d/e/1FAIpQLSet1cuIzl9r4u-Mf8VfVL-exqeGGWU9-OdllTs84W2iUkp5DQ/viewform?embedded=true"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                marginHeight={0}
+                marginWidth={0}
+                className="w-full h-full flex-1 min-h-[800px]"
+                title="Contact Form"
+              >
+                Loading…
+              </iframe>
             </div>
           </div>
         </div>
