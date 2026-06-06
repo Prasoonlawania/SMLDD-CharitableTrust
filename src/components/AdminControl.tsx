@@ -3,7 +3,7 @@ import { Settings, LogOut, CheckCircle2 } from 'lucide-react';
 import { useAppContext } from '../AppContext';
 
 // Simple passcode for demonstration
-const ADMIN_PASSCODE = 'admin123';
+const ADMIN_PASSCODE = 'Prasoon@adminsmldd';
 
 export function AdminControl() {
   const { isAdmin, setIsAdmin } = useAppContext();
@@ -78,7 +78,7 @@ export function AdminControl() {
                   type="password" 
                   value={passcode}
                   onChange={(e) => setPasscode(e.target.value)}
-                  placeholder="Enter Passcode (admin123)"
+                  placeholder="Enter Passcode"
                   className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 outline-none focus:ring-2 focus:ring-gray-900 focus:bg-white text-center font-mono tracking-widest text-lg"
                   autoFocus
                 />
