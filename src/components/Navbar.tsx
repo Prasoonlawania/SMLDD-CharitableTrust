@@ -18,7 +18,7 @@ export /* */ function Navbar() {
       <nav className="container relative mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <a href="#" className="flex items-center gap-2 text-xl font-bold text-gray-800">
-            <img src="/logo.png" alt="SMLDD Logo" className="h-10 w-10 object-contain rounded" />
+            <img src="/logo-1.png" alt="SMLDD Logo" className="h-10 w-10 object-contain rounded" />
             SMLDD <span className="hidden sm:inline font-medium text-gray-500">Charitable Trust</span>
           </a>
 
