@@ -1,0 +1,8 @@
+{
+  "name": "SML DD Charitable Trust",
+  "description": "Charitable Trust Website with Admin features",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
