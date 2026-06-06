@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: Prasoonlawania/SMLDD-CharitableTrust # IMPORTANT: Change this to your actual GitHub username/repo
+  repo: your-username/your-repo-name # IMPORTANT: Change this to your actual GitHub username/repo
   branch: main # Branch to update (optional; defaults to main/master)
 
 # This is where your uploaded media will be saved
