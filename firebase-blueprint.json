@@ -1,0 +1,23 @@
+{
+  "entities": {
+    "WebsiteContent": {
+      "title": "WebsiteContent",
+      "description": "Public content for the SMLDD website",
+      "type": "object",
+      "properties": {
+        "hero": { "type": "object" },
+        "about": { "type": "object" },
+        "news": { "type": "array" },
+        "contact": { "type": "object" },
+        "isPublic": { "type": "boolean" }
+      },
+      "required": ["hero", "about", "news", "contact", "isPublic"]
+    }
+  },
+  "firestore": {
+    "/website/{documentId}": {
+      "schema": "WebsiteContent",
+      "description": "Singleton configuration for website content."
+    }
+  }
+}

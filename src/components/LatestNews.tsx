@@ -9,6 +9,52 @@ export function LatestNews() {
   const [isAdding, setIsAdding] = useState(false);
   const [showConfirmId, setShowConfirmId] = useState<string | null>(null);
 
+  const [newItemImageUrl, setNewItemImageUrl] = useState<string>('');
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 800;
+        const MAX_HEIGHT = 800;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        
+        if (editingItem) {
+          setEditingItem({ ...editingItem, imageUrl: dataUrl });
+        } else {
+          setNewItemImageUrl(dataUrl);
+        }
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -17,7 +63,7 @@ export function LatestNews() {
       date: formData.get('date') as string,
       title: formData.get('title') as string,
       content: formData.get('content') as string,
-      imageUrl: formData.get('imageUrl') as string || 'https://images.unsplash.com/photo-1593113563332-e147ce367eee?auto=format&fit=crop&q=80&w=600'
+      imageUrl: (editingItem ? editingItem.imageUrl : newItemImageUrl) || 'https://images.unsplash.com/photo-1593113563332-e147ce367eee?auto=format&fit=crop&q=80&w=600'
     };
 
     if (isAdding) {
@@ -28,6 +74,7 @@ export function LatestNews() {
     
     setIsAdding(false);
     setEditingItem(null);
+    setNewItemImageUrl('');
   };
 
   const NewsFormModal = () => {
@@ -38,7 +85,7 @@ export function LatestNews() {
       <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl relative">
           <button 
-            onClick={() => { setIsAdding(false); setEditingItem(null); }}
+            onClick={() => { setIsAdding(false); setEditingItem(null); setNewItemImageUrl(''); }}
             className="absolute top-4 right-4 text-gray-400 hover:text-gray-900"
           >
             <X size={24} />
@@ -58,15 +105,38 @@ export function LatestNews() {
                 <input name="title" defaultValue={item.title} required className="w-full border-gray-300 rounded-lg p-2.5 border outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
-                <input name="imageUrl" defaultValue={item.imageUrl} className="w-full border-gray-300 rounded-lg p-2.5 border outline-none focus:ring-2 focus:ring-blue-500" placeholder="https://" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">Image Upload (Max 1MB)</label>
+                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-blue-500 transition-colors">
+                  <div className="space-y-1 text-center">
+                    { (editingItem ? editingItem.imageUrl : newItemImageUrl) ? (
+                      <div className="mb-4 relative w-full h-32 overflow-hidden rounded">
+                        <img 
+                          src={editingItem ? editingItem.imageUrl : newItemImageUrl} 
+                          alt="Preview" 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
+                    <div className="flex text-sm text-gray-600 justify-center">
+                      <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                        <span>Upload a file</span>
+                        <input id="file-upload" name="file-upload" type="file" className="sr-only" accept="image/*" onChange={handleImageChange} />
+                      </label>
+                    </div>
+                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB (will be compressed)</p>
+                  </div>
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
                 <textarea name="content" defaultValue={item.content} required rows={4} className="w-full border-gray-300 rounded-lg p-2.5 border outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
               <div className="pt-4 flex justify-end gap-3">
-                <button type="button" onClick={() => { setIsAdding(false); setEditingItem(null); }} className="px-5 py-2.5 font-medium text-gray-600 hover:bg-gray-50 rounded-lg">Cancel</button>
+                <button type="button" onClick={() => { setIsAdding(false); setEditingItem(null); setNewItemImageUrl(''); }} className="px-5 py-2.5 font-medium text-gray-600 hover:bg-gray-50 rounded-lg">Cancel</button>
                 <button type="submit" className="px-5 py-2.5 font-medium bg-blue-600 text-white hover:bg-blue-700 rounded-lg shadow-sm">Save Update</button>
               </div>
             </form>
@@ -86,7 +156,7 @@ export function LatestNews() {
           </div>
           {isAdmin && (
             <button 
-              onClick={() => setIsAdding(true)}
+              onClick={() => { setIsAdding(true); setNewItemImageUrl(''); }}
               className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 shadow-sm transition-colors"
             >
               <Plus size={20} />

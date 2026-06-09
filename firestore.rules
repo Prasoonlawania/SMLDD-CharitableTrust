@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isSignedIn() { return request.auth != null; }
+    function isValidAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'plawania05@gmail.com' || 
+        request.auth.token.email == 'smlddcharitabletrust@gmail.com'
+      );
+    }
+
+    function isValidWebsiteContent(data) {
+      return data.keys().hasAll(['hero', 'about', 'news', 'contact', 'isPublic']) &&
+             data.isPublic == true &&
+             data.hero is map &&
+             data.about is map &&
+             data.news is list &&
+             data.contact is map;
+    }
+
+    match /website/{documentId} {
+      allow read: if true;
+
+      allow create: if isValidAdmin() && isValidWebsiteContent(incoming());
+
+      allow update: if isValidAdmin() && isValidWebsiteContent(incoming()) && (
+        incoming().diff(existing()).affectedKeys().hasOnly(['hero', 'about', 'news', 'contact', 'isPublic'])
+      );
+    }
+  }
+}
