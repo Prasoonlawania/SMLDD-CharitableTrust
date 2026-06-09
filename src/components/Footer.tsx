@@ -11,7 +11,7 @@ export function Footer() {
         <div className="grid md:grid-cols-3 gap-8 items-start mb-12">
           <div>
             <div className="flex items-center gap-2 text-xl font-bold text-white mb-4">
-              <img src="/logo-1.png" alt="SMLDD Logo" className="h-8 w-8 object-contain rounded" />
+              <img src="./logo-1.png" alt="SMLDD Logo" className="h-8 w-8 object-contain rounded" />
               SMLDD
             </div>
             <p className="text-gray-400 max-w-sm leading-relaxed">
